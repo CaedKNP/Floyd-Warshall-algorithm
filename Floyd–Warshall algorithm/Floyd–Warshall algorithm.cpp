@@ -30,22 +30,38 @@ int main()
         }
     }
 
-    for (int i = 0; i < Size; i++)
+    if (Size != 4)
     {
-        for (int j = 0; j < Size; j++)
+        for (int i = 0; i < Size; i++)
         {
-            if (i == j)
+            for (int j = 0; j < Size; j++)
             {
-                graph[j * Size + i] = 0;
+                if (i == j)
+                {
+                    graph[j * Size + i] = 0;
+                }
+                else {
+                    system("cls");
+                    cout << "Czy chcesz połączyć wierzchołek " << i << " do " << j << " T/N?";
+                    cin >> el;
+                    if (el == "T" || el == "t")
+                        graph[j * Size + i] = 1;
+                    else
+                        graph[j * Size + i] = -1;
+                }
             }
-            else {
-                system("cls");
-                cout << "Czy chcesz połączyć wierzchołek " << i << " do " << j << " T/N?";
-                cin >> el;
-                if (el == "T" || el == "t")
+        }
+    }
+    else
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            for (int j = 0; j < Size; j++)
+            {
+                if (rand() % 2 == 0)
                     graph[j * Size + i] = 1;
                 else
-                    graph[j * Size + i] = -1;
+                    graph[j * Size + i] = 0;
             }
         }
     }
@@ -60,6 +76,24 @@ int main()
     }
 
     //floyd-warshall algrithm
+    for (int i = 0; i < Size; i++)
+    {
+        for (int j = 0; j < Size; j++)
+        {
+
+        }
+    }
+
+    for (int k = 0; k < Size; k++)
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            for (int j = 0; j < Size; j++)
+            {
+
+            }
+        }
+    }
 
     delete[] graph;
 
