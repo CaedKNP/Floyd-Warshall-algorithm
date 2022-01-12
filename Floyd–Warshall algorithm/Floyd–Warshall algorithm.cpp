@@ -22,6 +22,14 @@ int XR(int a, int b)
         return 0;
 }
 
+int Min(int a, int b)
+{
+    if (a < b)
+        return a;
+    else
+        return b;
+}
+
 int main()
 {
     int Size = 4;
@@ -49,7 +57,7 @@ int main()
         }
     }
 
-    if (Size != 4)
+    if (Size == 4)
     {
         for (int i = 0; i < Size; i++)
         {
@@ -77,10 +85,16 @@ int main()
         {
             for (int j = 0; j < Size; j++)
             {
-                if (rand() % 2 == 0)
-                    graph[j * Size + i] = 1;
-                else
-                    graph[j * Size + i] = -1;
+                if (i == j)
+                {
+                    graph[j * Size + i] = 0;
+                }
+                else {
+                    if (rand() % 2 == 0)
+                        graph[j * Size + i] = 1;
+                    else
+                        graph[j * Size + i] = -1;
+                }
             }
         }
     }
@@ -89,7 +103,10 @@ int main()
     {
         for (int j = 0; j < Size; j++)
         {
-            cout << graph[j * Size + i];
+            if(graph[j * Size + i] == -1)
+                cout << graph[j * Size + i] << " ";
+            else
+                cout << " " << graph[j * Size + i] << " ";
         }
         cout << endl;
     }
@@ -109,16 +126,36 @@ int main()
         {
             for (int j = 0; j < Size; j++)
             {
-                dist[j * Size + i] = M(dist[j * Size + i], XR(dist[k * Size + i], dist[i * Size + k]));
+                //dist[j * Size + i] = M(dist[j * Size + i], XR(dist[k * Size + i], dist[i * Size + k]));
+                if(Min(dist[j * Size + i], dist[k * Size + i] + dist[i * Size + k]) && (dist[k * Size + i] != -1 && dist[i * Size + k] != -1))
+                    dist[j * Size + i] = dist[k * Size + i] + dist[i * Size + k];
             }
         }
+
+        //cout << endl;
+        //for (int i = 0; i < Size; i++)
+        //{
+        //    for (int j = 0; j < Size; j++)
+        //    {
+        //        if (dist[j * Size + i] == -1)
+        //            cout << dist[j * Size + i] << " ";
+        //        else
+        //            cout << " " << dist[j * Size + i] << " ";
+        //    }
+        //    cout << endl;
+        //}
     }
+
+    cout << endl;
 
     for (int i = 0; i < Size; i++)
     {
         for (int j = 0; j < Size; j++)
         {
-            cout << dist[j * Size + i];
+            if (dist[j * Size + i] == -1)
+                cout << dist[j * Size + i] << " ";
+            else
+                cout << " " << dist[j * Size + i] << " ";
         }
         cout << endl;
     }
