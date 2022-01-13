@@ -6,8 +6,15 @@
 
 using namespace std;
 
+#define INF 999
+
 int M(int a, int b)
 {
+    if (a == INF)
+        a = 0;
+    if (b == INF)
+        b = 0;
+
     if (a == 0 && b == 0)
         return 0;
     else
@@ -16,6 +23,11 @@ int M(int a, int b)
 
 int XR(int a, int b)
 {
+    if (a == INF)
+        a = 0;
+    if (b == INF)
+        b = 0;
+
     if (a == 1 && b == 1)
         return 1;
     else
@@ -34,7 +46,7 @@ int main()
 {
     int Size = 4;
     int* graph = new int[Size * Size];//remember element ixj is graph[j*Size + i]
-    int* dist = new int[Size*Size];
+    int* dist = new int[Size * Size];
     string el = "";
 
     srand(time(NULL));
@@ -69,18 +81,20 @@ int main()
                 }
                 else {
                     system("cls");
-                    cout << "Czy chcesz połączyć wierzchołek " << i << " do " << j << " T/N?";
+                    cout << "Czy chcesz polaczyc wiercholek " << i << " do " << j << " T/N? ";
                     cin >> el;
                     if (el == "T" || el == "t")
                         graph[j * Size + i] = 1;
                     else
-                        graph[j * Size + i] = -1;
+                        graph[j * Size + i] = INF;
                 }
             }
         }
     }
     else
     {
+        cout << "Podaj prawdopodiebnstwo w %: ";
+        cin >> el;
         for (int i = 0; i < Size; i++)
         {
             for (int j = 0; j < Size; j++)
@@ -90,10 +104,10 @@ int main()
                     graph[j * Size + i] = 0;
                 }
                 else {
-                    if (rand() % 2 == 0)
+                    if (rand() * 100 <= atoi(el.c_str()))
                         graph[j * Size + i] = 1;
                     else
-                        graph[j * Size + i] = -1;
+                        graph[j * Size + i] = INF;
                 }
             }
         }
@@ -103,10 +117,10 @@ int main()
     {
         for (int j = 0; j < Size; j++)
         {
-            if(graph[j * Size + i] == -1)
-                cout << graph[j * Size + i] << " ";
+            if(graph[j * Size + i] == INF)
+                cout << " INF";
             else
-                cout << " " << graph[j * Size + i] << " ";
+                cout << "  " << graph[j * Size + i] << " ";
         }
         cout << endl;
     }
@@ -120,30 +134,30 @@ int main()
         }
     }
 
-    for (int k = 0; k < Size; k++)
+    for (int k = 0; k < Size; k++)//go through
     {
+        for (int i = 0; i < Size; i++)//begin
+        {
+            for (int j = 0; j < Size; j++)//end
+            {
+                dist[j * Size + i] = M(dist[j * Size + i], XR(dist[k * Size + i], dist[j * Size + k]));
+                //dist[j * Size + i] = Min(dist[k * Size + i] + dist[j * Size + k], dist[j * Size + i]);
+            }
+        }
+
+        cout << endl;
+
         for (int i = 0; i < Size; i++)
         {
             for (int j = 0; j < Size; j++)
             {
-                //dist[j * Size + i] = M(dist[j * Size + i], XR(dist[k * Size + i], dist[i * Size + k]));
-                if(Min(dist[j * Size + i], dist[k * Size + i] + dist[i * Size + k]) && (dist[k * Size + i] != -1 && dist[i * Size + k] != -1))
-                    dist[j * Size + i] = dist[k * Size + i] + dist[i * Size + k];
+                if (dist[j * Size + i] == INF)
+                    cout << " INF";
+                else
+                    cout << "  " << dist[j * Size + i] << " ";
             }
+            cout << endl;
         }
-
-        //cout << endl;
-        //for (int i = 0; i < Size; i++)
-        //{
-        //    for (int j = 0; j < Size; j++)
-        //    {
-        //        if (dist[j * Size + i] == -1)
-        //            cout << dist[j * Size + i] << " ";
-        //        else
-        //            cout << " " << dist[j * Size + i] << " ";
-        //    }
-        //    cout << endl;
-        //}
     }
 
     cout << endl;
@@ -152,10 +166,10 @@ int main()
     {
         for (int j = 0; j < Size; j++)
         {
-            if (dist[j * Size + i] == -1)
-                cout << dist[j * Size + i] << " ";
+            if (dist[j * Size + i] == INF)
+                cout << " INF";
             else
-                cout << " " << dist[j * Size + i] << " ";
+                cout << "  " << dist[j * Size + i] << " ";
         }
         cout << endl;
     }
